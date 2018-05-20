@@ -3,18 +3,25 @@ import React from "react";
 import { formatDay, formatDate } from "../helpers/lib";
 
 import Icon from "./icon";
+import TemperatureComponent from "./temperature";
 
 const ForecastItem = ({ ...props }) => {
-  // console.log("i am prop inside forecast item", props);
   const { icon, time, temperatureMax, temperatureMin } = props.weather;
-  // const icon = "clear-day";
+  const { isCelcius } = props;
+
   return (
     <div className="forecast-day">
       <p>{formatDay(time)}</p>
       <p>{formatDate(time)}</p>
       <Icon icon={icon} />
-      <p>{temperatureMax}</p>
-      <p>{temperatureMin}</p>
+      <TemperatureComponent
+        temperature={temperatureMax}
+        isCelcius={isCelcius}
+      />
+      <TemperatureComponent
+        temperature={temperatureMin}
+        isCelcius={isCelcius}
+      />
     </div>
   );
 };

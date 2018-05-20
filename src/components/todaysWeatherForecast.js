@@ -14,23 +14,27 @@ class TodaysWeatherForecast extends Component {
       <div className="todaysWeather--forecast">
         <TodaysWeatherForecastItem
           temperature={this.props.weather.data[6].temperature}
+          isCelcius={this.props.isCelcius}
           timeOfDay="Morning"
-          icon={"cloudy"}
+          icon="cloudy"
         />
         <TodaysWeatherForecastItem
           temperature={this.props.weather.data[12].temperature}
+          isCelcius={this.props.isCelcius}
           timeOfDay="Day"
-          icon={"clear-day"}
+          icon="clear-day"
         />
         <TodaysWeatherForecastItem
           temperature={this.props.weather.data[24].temperature}
+          isCelcius={this.props.isCelcius}
           timeOfDay="Evening"
-          icon={"cloudy"}
+          icon="cloudy"
         />
         <TodaysWeatherForecastItem
           temperature={this.props.weather.data[36].temperature}
+          isCelcius={this.props.isCelcius}
           timeOfDay="Night"
-          icon={"clear-night"}
+          icon="clear-night"
         />
       </div>
     ) : (

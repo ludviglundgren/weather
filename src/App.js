@@ -7,19 +7,6 @@ import TodaysWeatherForecast from "./components/todaysWeatherForecast";
 import TodaysWeatherBarometrics from "./components/todaysWeatherBarometrics";
 import TemperatureComponent from "./components/temperature";
 
-// const CurrentTemp = (props) => {
-//   return (
-//     <div>
-//       {props.forecast.city.map((item, i) => {
-//             <h2 key={i}>{ item.id }</h2>
-//         })}
-//     </div>
-//   )
-// {Object.keys(props.forecast).map(function(key) {
-//   return <div>Key: {key}, Value: {props.forecast[key]}</div>;
-// })}
-// }
-
 class App extends Component {
   constructor() {
     super();
@@ -28,46 +15,35 @@ class App extends Component {
       currentweather: {},
       dailyforecast: {},
       hourlyforecast: {},
-      latitude: "",
-      longitude: "",
+      latitude: "56.429035",
+      longitude: "12.840247",
       isCelcius: true
     };
 
-    // this.getWeatherByCordinates();
+    this.toggleCelcius = this.toggleCelcius.bind(this);
+    this.toggleFahrenheit = this.toggleFahrenheit.bind(this);
+
+    this.getMyCurrentPosition = this.getMyCurrentPosition.bind(this);
   }
-
-  // onFormSubmit(e) {
-  //   e.preventDefualt();
-  // }
-
-  // componentWillUpdate() {
-  //   console.log(this.state);
-  // }
 
   componentWillMount() {
-    const lat = "59.29809350000001";
-    const long = "18.069659599999998";
+    this.getWeatherByLocation(this.state.latitude, this.state.longitude);
 
-    this.getWeatherByLocation(lat, long);
+    this.getMyCurrentPosition()
+      .then(position => {
+        const { latitude, longitude } = position.coords;
+        this.setState({
+          latitude,
+          longitude
+        });
 
-    // this.getCurrentPosition()
-    //   .then(position => {
-    //     console.log(position)
-    //     const { latitude, longitude } = position.coords;
-    //     this.setState({
-    //       latitude: latitude,
-    //       longitude: longitude,
-    //     });
-
-    //     // this.getWeatherByLocation(latitude, longitude);
-    //   })
-    //   .catch(error => console.error(error));
+        this.getWeatherByLocation(latitude, longitude);
+      })
+      .catch(error => console.error(error));
   }
 
-  getCurrentPosition() {
-    const resolve = null;
-    const reject = null;
-
+  // eslint-disable-next-line
+  getMyCurrentPosition() {
     if (navigator.geolocation) {
       return new Promise((resolve, reject) =>
         navigator.geolocation.getCurrentPosition(resolve, reject)
@@ -76,26 +52,7 @@ class App extends Component {
     return new Promise(resolve => resolve({}));
   }
 
-  getWeatherByCity() {
-    const apikey = "&APPID=3823a62d779782119e54c217f5c22d3b";
-
-    const city = "stockholm";
-    const cityquery = `http://api.openweathermap.org/data/2.5/forecast?q=${city}${apikey}&units=metric`;
-
-    fetch(cityquery)
-      .then(res => res.json())
-      .then(data => {
-        console.log("response data", data);
-
-        this.setState({ forecast: data });
-        console.log("logging state after fetch", this.state.forecast);
-      })
-      .catch(err => console.error(err));
-  }
-
   async getWeatherByLocation(lat, long) {
-    // console.log("lat: ", lat);
-    // console.log("long: ", long);
     const apikey = "c5ec9215a57347118d6bc5aad3e069f3";
 
     const corsCheat = "https://cors-anywhere.herokuapp.com";
@@ -113,8 +70,21 @@ class App extends Component {
     });
   }
 
+  toggleCelcius() {
+    this.setState({
+      isCelcius: true
+    });
+  }
+
+  toggleFahrenheit() {
+    this.setState({
+      isCelcius: false
+    });
+  }
+
   render() {
     const { temperature, summary, icon } = this.state.currentweather;
+    const { isCelcius } = this.state;
 
     return (
       <div>
@@ -125,36 +95,43 @@ class App extends Component {
                 <h1>Stockholm, Sweden</h1>
                 <div className="currentWeather">
                   <Icon icon={icon} />
-                  <p>Current temp: {temperature}</p>
-                  <TemperatureComponent temperature={temperature} />
+                  <TemperatureComponent
+                    temperature={temperature}
+                    isCelcius={isCelcius}
+                  />
                 </div>
               </div>
               <div className="todaysWeatherContainer">
                 <div className="todaysWeather">
-                  <h2>{summary}</h2>
+                  <div className="todaysWeatherSummary">
+                    <h2>{summary}</h2>
+                    <div className="changeTemperatureButtons">
+                      <button onClick={this.toggleCelcius}>C</button>
+                      <button onClick={this.toggleFahrenheit}>F</button>
+                    </div>
+                  </div>
                   <TodaysWeatherBarometrics
                     currentweather={this.state.currentweather}
                     isCelcius={this.state.isCelcius}
                   />
-                  <TodaysWeatherForecast weather={this.state.hourlyforecast} />
+                  <TodaysWeatherForecast
+                    weather={this.state.hourlyforecast}
+                    isCelcius={isCelcius}
+                  />
                 </div>
               </div>
             </div>
-            <ForecastContainer weather={this.state.dailyforecast} />
+            <ForecastContainer
+              weather={this.state.dailyforecast}
+              isCelcius={isCelcius}
+            />
           </div>
         ) : (
-          <p>Can't get current location</p>
+          <p>Loading..</p>
         )}
       </div>
     );
   }
 }
-
-// <div className="App">
-//   <p className="App-intro">Get me some forecast, eeeyyh</p>
-//   { this.state.forecast.list
-//       ? this.state.forecast.list.map(day => <p key={day.main.temp}>The temperature is: {day.main.temp}</p>)
-//     : "No forecast yet, go search"}
-// </div>
 
 export default App;

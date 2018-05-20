@@ -44,9 +44,29 @@
   padding: 1em;
 }
 
+.changeTemperatureButtons button {
+  margin: 0.5em;
+  padding: 1em;
+  text-decoration: none;
+  background-color: burlywood;
+  border-radius: 2px;
+  border: none;
+}
+
+.currentWeatherContainer h1 {
+  border-bottom: 2px solid #000;
+  line-height: 50px;
+}
+
 .currentWeather {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.currentWeather p {
+  font-size: 36px;
 }
 
 .todaysWeatherContainer {
@@ -60,6 +80,11 @@
 
 .todaysWeather {
   width: 100%;
+}
+
+.todaysWeatherSummary {
+  display: flex;
+  justify-content: space-between;
 }
 
 .todaysWeather--barometrics {
@@ -102,7 +127,7 @@
 }
 
 .forecast-day img {
-  width: 300px;
-  height: 300px;
+  width: 75%;
+  max-height: 300px;
   align-self: center;
 }

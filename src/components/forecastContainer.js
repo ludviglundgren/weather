@@ -3,14 +3,18 @@ import ForecastItem from "./forecastItem";
 
 const ForecastContainer = props => {
   let fiveDays = [];
-  // console.log("i am props inside somewhere", props);
 
+  // eslint-disable-next-line
   props.weather.data ? (fiveDays = props.weather.data.slice(0, 5)) : null;
+
+  const { isCelcius } = props;
 
   return (
     <div className="forecast">
       {props.weather.data ? (
-        fiveDays.map(day => <ForecastItem weather={day} key={day.time} />)
+        fiveDays.map(day => (
+          <ForecastItem weather={day} isCelcius={isCelcius} key={day.time} />
+        ))
       ) : (
         <p>Loading..</p>
       )}
