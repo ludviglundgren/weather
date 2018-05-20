@@ -1,47 +1,21 @@
-import React, { Component } from "react";
+import React from "react";
+import ForecastItem from "./forecastItem";
 
-class ForecastContainer extends Component {
-  render() {
-    return (
-      <div className="forecast">
-        <div className="forecast-day">
-          <p>Today</p>
-          <p>16 May</p>
-          <p>+25</p>
-          <p>+16</p>
-          <p>Very sunny!</p>
-        </div>
-        <div className="forecast-day">
-          <p>Today</p>
-          <p>16 May</p>
-          <p>+25</p>
-          <p>+16</p>
-          <p>Very sunny!</p>
-        </div>
-        <div className="forecast-day">
-          <p>Today</p>
-          <p>16 May</p>
-          <p>+25</p>
-          <p>+16</p>
-          <p>Very sunny!</p>
-        </div>
-        <div className="forecast-day">
-          <p>Today</p>
-          <p>16 May</p>
-          <p>+25</p>
-          <p>+16</p>
-          <p>Very sunny!</p>
-        </div>
-        <div className="forecast-day">
-          <p>Today</p>
-          <p>16 May</p>
-          <p>+25</p>
-          <p>+16</p>
-          <p>Very sunny!</p>
-        </div>
-      </div>
-    );
-  }
-}
+const ForecastContainer = props => {
+  let fiveDays = [];
+  // console.log("i am props inside somewhere", props);
+
+  props.weather.data ? (fiveDays = props.weather.data.slice(0, 5)) : null;
+
+  return (
+    <div className="forecast">
+      {props.weather.data ? (
+        fiveDays.map(day => <ForecastItem weather={day} key={day.time} />)
+      ) : (
+        <p>Loading..</p>
+      )}
+    </div>
+  );
+};
 
 export default ForecastContainer;

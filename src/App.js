@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import "./App.css";
 
-import SearchBar from "./components/searchbar";
+import Icon from "./components/icon";
 import ForecastContainer from "./components/forecastContainer";
 import TodaysWeatherForecast from "./components/todaysWeatherForecast";
 import TodaysWeatherBarometrics from "./components/todaysWeatherBarometrics";
+import TemperatureComponent from "./components/temperature";
 
 // const CurrentTemp = (props) => {
 //   return (
@@ -27,19 +28,40 @@ class App extends Component {
       currentweather: {},
       dailyforecast: {},
       hourlyforecast: {},
-      latitude: '',
-      longitude: '',
+      latitude: "",
+      longitude: "",
+      isCelcius: true
     };
 
     // this.getWeatherByCordinates();
   }
 
-  onFormSubmit(e) {
-    e.preventDefualt();
-  }
+  // onFormSubmit(e) {
+  //   e.preventDefualt();
+  // }
 
-  componentWillUpdate() {
-    console.log(this.state);
+  // componentWillUpdate() {
+  //   console.log(this.state);
+  // }
+
+  componentWillMount() {
+    const lat = "59.29809350000001";
+    const long = "18.069659599999998";
+
+    this.getWeatherByLocation(lat, long);
+
+    // this.getCurrentPosition()
+    //   .then(position => {
+    //     console.log(position)
+    //     const { latitude, longitude } = position.coords;
+    //     this.setState({
+    //       latitude: latitude,
+    //       longitude: longitude,
+    //     });
+
+    //     // this.getWeatherByLocation(latitude, longitude);
+    //   })
+    //   .catch(error => console.error(error));
   }
 
   getCurrentPosition() {
@@ -47,43 +69,24 @@ class App extends Component {
     const reject = null;
 
     if (navigator.geolocation) {
-      return new Promise(
-        (resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject)
-      )
-    } else {
-      return new Promise(
-        resolve => resolve({})
-      )
+      return new Promise((resolve, reject) =>
+        navigator.geolocation.getCurrentPosition(resolve, reject)
+      );
     }
-  }
-
-  componentDidMount() {
-    this.getCurrentPosition()
-      .then(position => {
-        console.log(position)
-        const { latitude, longitude } = position.coords;
-        this.setState({
-          latitude: latitude,
-          longitude: longitude,
-        });
-
-        // this.getWeatherByLocation(latitude, longitude);
-      })
-      .catch(error => console.error(error));
-
+    return new Promise(resolve => resolve({}));
   }
 
   getWeatherByCity() {
     const apikey = "&APPID=3823a62d779782119e54c217f5c22d3b";
 
-    let city = "stockholm";
-    let cityquery = `http://api.openweathermap.org/data/2.5/forecast?q=${city}${apikey}&units=metric`;
+    const city = "stockholm";
+    const cityquery = `http://api.openweathermap.org/data/2.5/forecast?q=${city}${apikey}&units=metric`;
 
     fetch(cityquery)
       .then(res => res.json())
       .then(data => {
         console.log("response data", data);
-        debugger;
+
         this.setState({ forecast: data });
         console.log("logging state after fetch", this.state.forecast);
       })
@@ -91,14 +94,14 @@ class App extends Component {
   }
 
   getWeatherByLocation(lat, long) {
-    console.log("lat: ", lat);
-    console.log("long: ", long);
-    const apikey = 'c5ec9215a57347118d6bc5aad3e069f3';
+    // console.log("lat: ", lat);
+    // console.log("long: ", long);
+    const apikey = "c5ec9215a57347118d6bc5aad3e069f3";
 
-    const corsCheat = 'https://cors-anywhere.herokuapp.com';
+    const corsCheat = "https://cors-anywhere.herokuapp.com";
 
     const query = `${corsCheat}/https://api.darksky.net/forecast/${apikey}/${lat},${long}`;
-    console.log(query);
+    // console.log(query);
 
     fetch(query)
       .then(res => res.json())
@@ -108,45 +111,53 @@ class App extends Component {
           currentweather: data.currently,
           dailyforecast: data.daily,
           hourlyforecast: data.hourly
-        })
+        });
       })
       .catch(error => console.error(error));
-
   }
 
   render() {
-    const { temperature, windSpeed, humidity } = this.state.currentweather;
+    const { temperature, summary, icon } = this.state.currentweather;
+
     return (
       <div>
-        { this.state.currentweather
-          ? <div className="container">
-              <div className="today-container">
+        {this.state.currentweather ? (
+          <div className="container">
+            <div className="today-container">
+              <div className="currentWeatherContainer">
+                <h1>Stockholm, Sweden</h1>
                 <div className="currentWeather">
-                  <h1>Stockholm, Sweden</h1>
-                  <p>Current temp: { temperature }</p>
-                
-                </div>
-                <div className="todaysWeather">
-                  <h2>It's sunny now</h2>
-                  <TodaysWeatherBarometrics />
-                  <TodaysWeatherForecast />
+                  <Icon icon={icon} />
+                  <p>Current temp: {temperature}</p>
+                  <TemperatureComponent temperature={temperature} />
                 </div>
               </div>
-            <ForecastContainer />
+              <div className="todaysWeatherContainer">
+                <div className="todaysWeather">
+                  <h2>{summary}</h2>
+                  <TodaysWeatherBarometrics
+                    currentweather={this.state.currentweather}
+                    isCelcius={this.state.isCelcius}
+                  />
+                  <TodaysWeatherForecast weather={this.state.hourlyforecast} />
+                </div>
+              </div>
             </div>
-          : <p>Can't get current location</p>
-        }
+            <ForecastContainer weather={this.state.dailyforecast} />
+          </div>
+        ) : (
+          <p>Can't get current location</p>
+        )}
       </div>
     );
   }
 }
 
-
-      // <div className="App">
-      //   <p className="App-intro">Get me some forecast, eeeyyh</p>
-      //   { this.state.forecast.list
-      //       ? this.state.forecast.list.map(day => <p key={day.main.temp}>The temperature is: {day.main.temp}</p>)
-      //     : "No forecast yet, go search"}
-      // </div>
+// <div className="App">
+//   <p className="App-intro">Get me some forecast, eeeyyh</p>
+//   { this.state.forecast.list
+//       ? this.state.forecast.list.map(day => <p key={day.main.temp}>The temperature is: {day.main.temp}</p>)
+//     : "No forecast yet, go search"}
+// </div>
 
 export default App;

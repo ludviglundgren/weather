@@ -1,15 +1,15 @@
-import React, { Component } from "react";
+import React from "react";
 
-class TodaysWeatherBarometrics extends Component {
-  render() {
-    return (
-      <div className="todaysWeather--barometrics">
-        <p>Wind:</p>
-        <p>Pressure</p>
-        <p>Humidity:</p>
-      </div>
-    );
-  }
-}
+const TodaysWeatherBarometrics = props => {
+  const { windSpeed, pressure, humidity } = props.currentweather;
+
+  return (
+    <div className="todaysWeather--barometrics">
+      <p>Wind: {windSpeed}</p>
+      <p>Pressure: {pressure}</p>
+      <p>Humidity: {humidity}</p>
+    </div>
+  );
+};
 
 export default TodaysWeatherBarometrics;
