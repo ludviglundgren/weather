@@ -93,7 +93,7 @@ class App extends Component {
       .catch(err => console.error(err));
   }
 
-  getWeatherByLocation(lat, long) {
+  async getWeatherByLocation(lat, long) {
     // console.log("lat: ", lat);
     // console.log("long: ", long);
     const apikey = "c5ec9215a57347118d6bc5aad3e069f3";
@@ -101,19 +101,16 @@ class App extends Component {
     const corsCheat = "https://cors-anywhere.herokuapp.com";
 
     const query = `${corsCheat}/https://api.darksky.net/forecast/${apikey}/${lat},${long}`;
-    // console.log(query);
 
-    fetch(query)
-      .then(res => res.json())
-      .then(data => {
-        console.log("i am data: ", data);
-        this.setState({
-          currentweather: data.currently,
-          dailyforecast: data.daily,
-          hourlyforecast: data.hourly
-        });
-      })
-      .catch(error => console.error(error));
+    const response = await fetch(query);
+    const json = await response.json();
+    console.log("I AM JSON", json);
+
+    this.setState({
+      currentweather: json.currently,
+      dailyforecast: json.daily,
+      hourlyforecast: json.hourly
+    });
   }
 
   render() {
