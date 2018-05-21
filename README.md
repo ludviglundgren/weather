@@ -1,4 +1,5 @@
 # Weather app
+Deployed [here](http://chas.ludviglundgren.se/weather/).
 
 This assignment was an introduction to React basics at Chas Academy in the spring of 2018.
 
