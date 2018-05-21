@@ -1,50 +1,28 @@
 # Weather app
 
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+This assignment was an introduction to React basics at Chas Academy in the spring of 2018.
 
-## Folder Structure
+The app uses [DarkSky API](https://darksky.net) for the weather data and location search with [Google Geocoding API](https://developers.google.com/maps/documentation/geocoding/start).
 
+Only vanilla react state to see its ease of use and what its weaknesses are, compared to something like Redux that would be overkill for this use case.
 
-```
-my-app/
-  README.md
-  node_modules/
-  package.json
-  public/
-    index.html
-    favicon.ico
-  src/
-    App.css
-    App.js
-    App.test.js
-    index.css
-    index.js
-    logo.svg
-```
+Feautres
 
-## Available Scripts
+- Get weather by current location (geolocation web api)
+- Search weather by city or place
+- Toggle displaying temperature between Celcius and Fahrenheit
 
-In the project directory, you can run:
+![app preview](https://res.cloudinary.com/dvodhv3js/image/upload/v1526879823/GITREPOS/Screen_Shot_2018-05-21_at_06.58.59.png)
 
-### `npm start`
+## How to run
 
-Runs the app in the development mode.<br>
+In the project directory run:
+
+    npm start
+
+To run the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## License
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](#running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](#deployment) for more information.
+Licensed under MIT.
