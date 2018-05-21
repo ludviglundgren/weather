@@ -11,10 +11,17 @@ const temperatureComponent = props => {
 
   const { temperature, isCelcius } = props;
 
+  // eslint-disable-next-line
+  if (!props.styling) {
+    const styling = "";
+  } else {
+    const { styling } = props;
+  }
+
   return isCelcius === true ? (
-    <p>{convertToCelcius(temperature)}</p>
+    <p className={props.styling}>{convertToCelcius(temperature)} °C</p>
   ) : (
-    <p>{temperature}</p>
+    <p className={props.styling}>{temperature.toFixed(0)} °F</p>
   );
 };
 

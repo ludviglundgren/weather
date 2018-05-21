@@ -1,35 +1,30 @@
-.App {
-  text-align: center;
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+#root {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.container {
+#root .container {
   display: flex;
   flex-direction: column;
+  width: 1200px;
+  -webkit-box-shadow: 0px 8px 30px 2px rgba(52, 50, 50, 0.38);
+  -moz-box-shadow: 0px 8px 30px 2px rgba(52, 50, 50, 0.38);
+  box-shadow: 0px 8px 30px 2px rgba(52, 50, 50, 0.38);
 }
 
 .today-container {
@@ -39,22 +34,65 @@
 }
 
 .currentWeatherContainer {
-  background-color: aqua;
+  background-color: #e6f8ff;
   width: 45%;
   padding: 1em;
 }
 
-.changeTemperatureButtons button {
-  margin: 0.5em;
-  padding: 1em;
-  text-decoration: none;
-  background-color: burlywood;
-  border-radius: 2px;
-  border: none;
+.currentWeatherLocation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.currentWeatherContainer h1 {
-  border-bottom: 2px solid #000;
+.currentWeatherLocation .form-group {
+  display: flex;
+  align-items: center;
+}
+
+.currentWeatherLocation .form-group button {
+  margin: 0.5em;
+  padding: 1em;
+  font-size: 14px;
+  text-decoration: none;
+  background-color: #ffbd47;
+  border-radius: 4px;
+  border: none;
+  -o-transition: all .2s;
+  transition: all .2s;
+  height: 54px;
+  margin-left: 0px;
+}
+
+.currentWeatherLocation img {
+  height: 35px;
+  margin-right: 10px;
+}
+
+.todaysWeatherSummary .btn {
+  margin: 0.5em;
+  padding: 1em;
+  font-size: 14px;
+  text-decoration: none;
+  background-color: #ffbd47;
+  border-radius: 4px;
+  border: none;
+  box-shadow: 0px 3px 10px 0px rgba(52, 50, 50, 0.48);
+  transition: all .2s;
+}
+
+.btn:hover {
+  background-color: #f1ae3a;
+  transition: all .2s;
+}
+
+.currentWeatherContainer input {
+  text-decoration: none;
+  border: none;
+  border-bottom: 2px solid #ffbd47;
+  background-color: inherit;
+  font-size: 2em;
+  color: #000;
   line-height: 50px;
 }
 
@@ -69,8 +107,11 @@
   font-size: 36px;
 }
 
+.currentWeather p.current-temp {
+  font-size: 4em;
+}
+
 .todaysWeatherContainer {
-  background-color: blueviolet;
   width: 55%;
   padding: 1em;
   display: flex;
@@ -92,6 +133,15 @@
   flex-direction: row;
 }
 
+.todaysWeather--barometrics p {
+  margin-right: 10px;
+}
+
+.todaysWeather--barometrics p > span {
+  font-weight: bold;
+  margin-left: 5px;
+}
+
 .todaysWeather--forecast {
   display: flex;
   flex-direction: row;
@@ -100,15 +150,24 @@
 
 .todaysWeather--forecast-item {
   width: 25%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.todaysWeather--forecast-item > .details {
+  display: flex;
+  flex-direction: row;
+  align-items: inherit;
+  justify-content: space-evenly;
 }
 
 .todaysWeather--forecast-item img {
-  width: 200px;
-  height: 200px;
+  max-width: 50%;
+  max-height: 70px;
 }
 
 .forecast {
-  background-color: coral;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -118,7 +177,7 @@
 .forecast-day {
   width: 100%;
   padding: 1em;
-  border: 1px solid;
+  border: 1px solid #eeeeee;
   padding-left: 3em;
   padding-right: 3em;
   display: flex;
@@ -126,8 +185,30 @@
   align-items: flex-start;
 }
 
+.forecast-day > .day {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: -5px;
+}
+
+.forecast-day > .date {
+  font-size: 16px;
+  color: grey;
+}
+
 .forecast-day img {
-  width: 75%;
-  max-height: 300px;
+  max-width: 100%;
+  max-height: 100px;
   align-self: center;
+}
+
+.forecast-day .forecast-day-max {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: -5px;
+}
+
+.forecast-day .forecast-day-min {
+  font-size: 16px;
+  color: grey;
 }

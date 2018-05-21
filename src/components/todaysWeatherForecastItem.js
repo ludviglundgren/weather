@@ -9,7 +9,7 @@ const TodaysWeatherForecastItem = props => {
   return (
     <div className="todaysWeather--forecast-item">
       <p>{timeOfDay}</p>
-      <div>
+      <div className="details">
         <Icon icon={icon} />
         <TemperatureComponent temperature={temperature} isCelcius={isCelcius} />
       </div>

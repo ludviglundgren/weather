@@ -17,13 +17,13 @@ class App extends Component {
       hourlyforecast: {},
       latitude: "56.429035",
       longitude: "12.840247",
-      isCelcius: true
+      isCelcius: true,
+      city: "Stockholm, Sverige"
     };
 
-    this.toggleCelcius = this.toggleCelcius.bind(this);
-    this.toggleFahrenheit = this.toggleFahrenheit.bind(this);
-
+    this.toggleDisplayTemperature = this.toggleDisplayTemperature.bind(this);
     this.getMyCurrentPosition = this.getMyCurrentPosition.bind(this);
+    this.searchByLocation = this.searchByLocation.bind(this);
   }
 
   componentWillMount() {
@@ -61,7 +61,6 @@ class App extends Component {
 
     const response = await fetch(query);
     const json = await response.json();
-    console.log("I AM JSON", json);
 
     this.setState({
       currentweather: json.currently,
@@ -70,16 +69,31 @@ class App extends Component {
     });
   }
 
-  toggleCelcius() {
+  async searchByLocation(e) {
+    e.preventDefault();
+
+    const location = this.refs.city.value;
+
+    const geokey = "AIzaSyDZ_ljXvilo4sTBx_oqjl_wBDB4q2qQqWE";
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${geokey}`;
+
+    const response = await fetch(url);
+    const json = await response.json();
+
+    this.getWeatherByLocation(
+      json.results[0].geometry.location.lat,
+      json.results[0].geometry.location.lng
+    );
+
     this.setState({
-      isCelcius: true
+      city: json.results[0].formatted_address
     });
   }
 
-  toggleFahrenheit() {
-    this.setState({
-      isCelcius: false
-    });
+  toggleDisplayTemperature() {
+    this.setState(prevState => ({
+      isCelcius: !prevState.isCelcius
+    }));
   }
 
   render() {
@@ -87,17 +101,29 @@ class App extends Component {
     const { isCelcius } = this.state;
 
     return (
-      <div>
+      <div className="wrapper">
         {this.state.currentweather ? (
           <div className="container">
             <div className="today-container">
               <div className="currentWeatherContainer">
-                <h1>Stockholm, Sweden</h1>
+                <div className="currentWeatherLocation">
+                  <form onSubmit={this.searchByLocation} className="form-group">
+                    <Icon icon="location" />
+                    <input
+                      type="text"
+                      placeholder={this.state.city}
+                      ref="city"
+                      name="city"
+                    />
+                    <button type="submit">Search</button>
+                  </form>
+                </div>
                 <div className="currentWeather">
                   <Icon icon={icon} />
                   <TemperatureComponent
                     temperature={temperature}
                     isCelcius={isCelcius}
+                    styling="current-temp"
                   />
                 </div>
               </div>
@@ -105,10 +131,12 @@ class App extends Component {
                 <div className="todaysWeather">
                   <div className="todaysWeatherSummary">
                     <h2>{summary}</h2>
-                    <div className="changeTemperatureButtons">
-                      <button onClick={this.toggleCelcius}>C</button>
-                      <button onClick={this.toggleFahrenheit}>F</button>
-                    </div>
+                    <button
+                      className="btn"
+                      onClick={this.toggleDisplayTemperature}
+                    >
+                      {this.state.isCelcius ? "Celcius" : "Fahrenheit"}
+                    </button>
                   </div>
                   <TodaysWeatherBarometrics
                     currentweather={this.state.currentweather}

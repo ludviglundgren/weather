@@ -5,9 +5,18 @@ const TodaysWeatherBarometrics = props => {
 
   return (
     <div className="todaysWeather--barometrics">
-      <p>Wind: {windSpeed}</p>
-      <p>Pressure: {pressure}</p>
-      <p>Humidity: {humidity}</p>
+      <p>
+        Wind:
+        <span>{windSpeed}</span>
+      </p>
+      <p>
+        Pressure:
+        <span>{pressure}</span>
+      </p>
+      <p>
+        Humidity:
+        <span>{humidity} %</span>
+      </p>
     </div>
   );
 };

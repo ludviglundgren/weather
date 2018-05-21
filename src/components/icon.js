@@ -6,6 +6,7 @@ import wind from "../icons/wind.svg";
 import snow from "../icons/snow.svg";
 import cloudy from "../icons/cloudy.svg";
 import clearday from "../icons/clear-day.svg";
+import location from "../icons/location-pin.svg";
 import clearnight from "../icons/clear-night.svg";
 import temperature from "../icons/temperature.svg";
 import partlyCloudyDay from "../icons/partly-cloudy-day.svg";
@@ -23,6 +24,8 @@ const Icon = props => {
       return <img src={snow} alt={props.icon} />;
     case "cloudy":
       return <img src={cloudy} alt={props.icon} />;
+    case "location":
+      return <img src={location} alt={props.icon} />;
     case "clear-day":
       return <img src={clearday} alt={props.icon} />;
     case "clear-night":

@@ -11,16 +11,18 @@ const ForecastItem = ({ ...props }) => {
 
   return (
     <div className="forecast-day">
-      <p>{formatDay(time)}</p>
-      <p>{formatDate(time)}</p>
+      <p className="day">{formatDay(time)}</p>
+      <p className="date">{formatDate(time)}</p>
       <Icon icon={icon} />
       <TemperatureComponent
         temperature={temperatureMax}
         isCelcius={isCelcius}
+        styling="forecast-day-max"
       />
       <TemperatureComponent
         temperature={temperatureMin}
         isCelcius={isCelcius}
+        styling="forecast-day-min"
       />
     </div>
   );
